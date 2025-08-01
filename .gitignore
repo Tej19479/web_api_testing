@@ -1,0 +1,13 @@
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore virtual environments
+web_api_testing_env
+
+# Ignore logs and OS files
+*.log
+.DS_Store
+
+/reports/
+.idea

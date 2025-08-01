@@ -1,0 +1,7 @@
+app:
+  base_url: "https://letcode.in/test"
+  login_url: "https://letcode.in/login"
+
+api:
+  base_url: "https://api.example.com"
+
