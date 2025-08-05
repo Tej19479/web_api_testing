@@ -24,6 +24,14 @@ pipeline {
             steps {
                 echo 'Deployingdddd     application...'
             }
+
+        }
+
+         stage('Deployss') {
+            steps {
+                echo 'Deployingssdddd   tttr  application...'
+            }
+
         }
     }
 }
