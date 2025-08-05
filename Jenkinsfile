@@ -24,6 +24,10 @@ pipeline {
             steps {
                 echo 'Deployingdddd     application...'
             }
+            stage('Tej is ne wew add') {
+            steps {
+                echo 'thhheelo...'
+            }
         }
     }
 }
