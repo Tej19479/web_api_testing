@@ -21,6 +21,10 @@ class ADDCARD:
             By.XPATH,
             f"//div[contains(@class,'ng-star-inserted')]/descendant::div[@class='card']//p[contains(text(),'{self.product_name}')]"
         )
+        self.display_locator111 = (
+            By.XPATH,
+            f"//div[contains(@class,'ng-star-inserted')]/descendant::div[@class='card']//p[contains(text(),'{self.product_name}')]"
+        )
         self.btn=(By.XPATH,"//p[contains(@class,'card-header-title') and contains(text(),'Fjallraven - Foldsack No. 1 Ba...')]/ancestor::div[contains(@class,'card')]//button[contains(@class,'button') and contains(@class,'is-link') and contains(@class,'is-fullwidth')]")
         self.btn_locator = (
             By.XPATH,
