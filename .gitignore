@@ -9,5 +9,6 @@ web_api_testing_env
 *.log
 .DS_Store
 
-reports/
+/reports/
+
 .idea
