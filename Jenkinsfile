@@ -22,16 +22,34 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo 'Deployingdddd     application...'
+                echo 'Deploying application...'
             }
-
         }
 
-         stage('Deployss') {
+        stage('Deploy Extra') {
             steps {
-                echo 'Deployingssdddd   tttr  application...'
+                echo 'Deploying additional application logic...'
             }
+        }
 
+        stage('Branch Pull for Fix Any Bugs') {
+            when {
+                branch pattern: "fix.*", comparator: "REGEXP"
+            }
+            steps {
+                sh '''
+                    cat read.me
+                '''
+            }
+        }
+
+        stage('For the PR - Pull Request') {
+            when {
+                branch pattern: "PR-.*", comparator: "REGEXP"
+            }
+            steps {
+                echo 'This stage runs only for PR branches.'
+            }
         }
     }
 }
