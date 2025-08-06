@@ -44,6 +44,7 @@ pipeline {
                     } else {
                         echo "Running on Windows..."
                         bat 'type read.me'
+                        echo "tejjjjj"
                     }
                 }
             }
