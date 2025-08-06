@@ -37,9 +37,15 @@ pipeline {
                 branch pattern: "fix.*", comparator: "REGEXP"
             }
             steps {
-                sh '''
-                    cat read.me
-                '''
+                script {
+                    if (isUnix()) {
+                        echo "Running on Unix..."
+                        sh 'cat read.me'
+                    } else {
+                        echo "Running on Windows..."
+                        bat 'type read.me'
+                    }
+                }
             }
         }
 
