@@ -1,5 +1,11 @@
 pipeline {
     agent any
+     parameters{
+         choice(
+            name: 'BROWSER',
+            choices: ['chrome', 'firefox', 'edge'],
+            description: 'Select the browser to open'
+        )}
 
     stages {
         stage('Checkout') {
