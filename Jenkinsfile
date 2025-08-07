@@ -1,11 +1,25 @@
 pipeline {
     agent any
-     parameters{
-         choice(
+
+    parameters {
+        choice(
             name: 'BROWSER',
             choices: ['chrome', 'firefox', 'edge'],
             description: 'Select the browser to open'
-        )}
+        )
+
+        string(
+            name: 'TestingWebsiteURL',
+            defaultValue: 'https://www.faircent.in/',
+            description: 'Enter the testing URL.'
+        )
+
+        string(
+            name: 'reportname',
+            defaultValue: 'testing.html',
+            description: 'Enter the report name.'
+        )
+    }
 
     stages {
         stage('Checkout') {
@@ -14,31 +28,9 @@ pipeline {
             }
         }
 
-        stage('Build') {
-            steps {
-                echo 'Building the project...'
-            }
-        }
-       stage('Print Workspace') {
-              steps {
-                   bat "echo The Jenkins build workspace is: %WORKSPACE%"
-              }
-       }
         stage('Test') {
             steps {
                 echo 'Running tests...'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploying application...'
-            }
-        }
-
-        stage('Deploy Extra') {
-            steps {
-                echo 'Deploying additional application logic...'
             }
         }
 
@@ -50,12 +42,10 @@ pipeline {
                 script {
                     if (isUnix()) {
                         echo "Running on Unix..."
-                        sh 'cat README.me'
+                        sh 'cat README.md'
                     } else {
                         echo "Running on Windows..."
                         bat 'type README.md'
-                        echo "tejjjjj"
-                        echo "tehhehehe"
                     }
                 }
             }
@@ -69,5 +59,29 @@ pipeline {
                 echo 'This stage runs only for PR branches.'
             }
         }
+
+        stage('Branch Name Print') {
+            steps {
+                echo "Branch name is: ${env.BRANCH_NAME}"
+            }
+        }
+
+       stage('Create Virtual Environment') {
+                steps {
+                    dir("${env.WORKSPACE}") {
+                        script {
+                            def venvName = "${env.JOB_NAME}".replaceAll("[^a-zA-Z0-9]", "_")  // Safe venv name
+                            if (isUnix()) {
+                                echo "Creating virtual environment on Unix with name: ${venvName}"
+                                sh "python3 -m venv ${venvName}"
+                            } else {
+                                echo "Creating virtual environment on Windows with name: ${venvName}"
+                                bat "python -m venv ${venvName}"
+                            }
+                        }
+                    }
+                }
+       }
+
     }
 }
