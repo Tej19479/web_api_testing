@@ -40,11 +40,12 @@ pipeline {
                 script {
                     if (isUnix()) {
                         echo "Running on Unix..."
-                        sh 'cat read.me'
+                        sh 'cat README.me'
                     } else {
                         echo "Running on Windows..."
-                        bat 'type read.me'
+                        bat 'type README.md'
                         echo "tejjjjj"
+                        echo "tehhehehe"
                     }
                 }
             }
