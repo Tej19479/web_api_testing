@@ -13,7 +13,11 @@ pipeline {
                 echo 'Building the project...'
             }
         }
-
+       stage('Print Workspace') {
+              steps {
+                   bat "echo The Jenkins build workspace is: %WORKSPACE%"
+              }
+       }
         stage('Test') {
             steps {
                 echo 'Running tests...'
