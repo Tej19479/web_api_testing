@@ -70,7 +70,7 @@ pipeline {
         }
         stage('print enivoment varibale priny'){
             steps {
-                echo "print the variave :${python_path}"
+               bat 'echo "Custom variable: %MY_CUSTOM_VARIABLE%"'
 
                 dir("${WORKSPACE}") {
                     bat '''
