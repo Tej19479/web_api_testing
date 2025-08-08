@@ -1,7 +1,9 @@
 pipeline {
     agent any
     environment{
-     PYTHON_PATH = "${env.Python_path}"
+      Python_path = credentials('Python_path')
+       PATH = "${Python_path};${env.PATH}"
+
     }
 
     parameters {
@@ -71,11 +73,11 @@ pipeline {
         stage('Set up the environment for project') {
             steps { dir("${WORKSPACE}"){
                  bat '''
-                        echo Current PATH:
+                       // echo Current PATH:
                         echo %PATH%
-
-                        echo Adding Python to PATH...
-                        set "PATH=%PYTHON_PATH%;%PATH%"
+                        echo "this is python path is : %Python_path%"
+                        //echo Adding Python to PATH...
+                        //set "PATH=%PYTHON_PATH%;%PATH%"
 
                         echo Checking Python version...
                         python --version
