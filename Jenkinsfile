@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment{
-     python_path="Python_path"
+     hellls="Python_path"
     }
 
     parameters {
@@ -68,18 +68,16 @@ pipeline {
                 echo "Branch name is: ${env.BRANCH_NAME}"
             }
         }
-        stage('print enivoment varibale priny'){
-            steps {
-               echo "the python varibale is :  ${env.Python_path}"
-
-                dir("${WORKSPACE}") {
-                    bat '''
-                        python -m venv venv
-                    '''
+       stage('Set up the environment for project') {
+          steps {
+                script {
+                    echo "The Python path is: ${env.PATH}"  // Optional: show PATH if needed
+                    bat 'python --version'
                 }
-            }
+         }
+       }
 
-        }
+
        stage('Create Virtual Environment') {
                 steps {
                     dir("${env.WORKSPACE}") {
