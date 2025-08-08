@@ -72,7 +72,8 @@ pipeline {
             steps { dir("${WORKSPACE}"){
                 script {
                     echo "The Python path is: ${env.Python_path}"  // Optional: show PATH if needed
-                    env.PATH="${env.Python_path}";
+                    set PATH=%${env.Python_path}%;%PATH%
+                    echo Python path set to: %PYTHON_PATH%
                     bat '''
                     python --version
                      python -m venv venv
