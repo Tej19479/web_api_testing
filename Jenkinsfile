@@ -75,7 +75,9 @@ pipeline {
                     env.PATH="${env.Python_path}";
                     bat '''
                     python --version
+                     python -m venv venv
                     '''
+                    
                 }
             }
             }
