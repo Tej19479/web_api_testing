@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment{
-     hhhhee="Python_path"
+     PYTHON_PATH = "${env.Python_path}"
     }
 
     parameters {
@@ -70,16 +70,18 @@ pipeline {
         }
         stage('Set up the environment for project') {
             steps { dir("${WORKSPACE}"){
-                script {
-                    echo "The Python path is: ${env.Python_path}"  // Optional: show PATH if needed
-                    set PATH=%${env.Python_path}%;%PATH%
-                    echo Python path set to: %PYTHON_PATH%
-                    bat '''
-                    python --version
-                     python -m venv venv
-                    '''
+                 bat '''
+                        echo Current PATH:
+                        echo %PATH%
+
+                        echo Adding Python to PATH...
+                        set "PATH=%PYTHON_PATH%;%PATH%"
+
+                        echo Checking Python version...
+                        python --version
+
                     
-                }
+                    '''
             }
             }
         }
