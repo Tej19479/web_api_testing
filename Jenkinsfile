@@ -69,7 +69,7 @@ pipeline {
             }
         }
         stage('print enivoment varibale priny'){
-            echo "print the variave :${python_path}""
+            echo "print the variave :${python_path}"
             bat
             '''
               python -m venv tej
