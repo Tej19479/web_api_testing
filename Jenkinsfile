@@ -70,10 +70,13 @@ pipeline {
         }
         stage('print enivoment varibale priny'){
             echo "print the variave :${python_path}"
-            bat
-            '''
-              python -m venv tej
-            '''
+            steps {
+                dir("${WORKSPACE}") {
+                    bat '''
+                        python -m venv venv
+                    '''
+                }
+            }
 
          }
        stage('Create Virtual Environment') {
