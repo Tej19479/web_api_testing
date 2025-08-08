@@ -69,11 +69,14 @@ pipeline {
             }
         }
         stage('Set up the environment for project') {
-            steps {
+            steps { dir("${WORKSPACE}"){
                 script {
                     echo "The Python path is: ${env.Python_path}"  // Optional: show PATH if needed
-                    bat '''python --version'''
+                    bat '''
+                    python --version
+                    '''
                 }
+            }
             }
         }
        stage('Create Virtual Environment') {
