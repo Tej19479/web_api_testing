@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment{
-      Python_path = credentials('Python_path')
+      Python_path = ${env.Python_path})
       PATH = "${Python_path};${env.PATH}"
 
     }
