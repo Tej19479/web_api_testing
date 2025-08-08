@@ -71,8 +71,8 @@ pipeline {
         stage('Set up the environment for project') {
             steps {
                 script {
-                    echo "The Python path is: ${env.PATH}"  // Optional: show PATH if needed
-                    bat 'python --version'
+                    echo "The Python path is: ${env.Python_path}"  // Optional: show PATH if needed
+                    bat '''python --version'''
                 }
             }
         }
