@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment{
-     python_path="Python_path"
+     heehheh="Python_path"
     }
 
     parameters {
@@ -71,6 +71,8 @@ pipeline {
         stage('print enivoment varibale priny'){
             steps {
                echo "the python varibale is :  ${env.Python_path}"
+               echo "thedhhdh thon varibale is :  %heehheh%"
+
 
                 dir("${WORKSPACE}") {
                     bat '''
