@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment{
+     python_path="Python_path"
+    }
 
     parameters {
         choice(
@@ -65,7 +68,14 @@ pipeline {
                 echo "Branch name is: ${env.BRANCH_NAME}"
             }
         }
+        stage('print enivoment varibale priny'){
+            echo "print the variave :${python_path}""
+            bat
+            '''
+              python -m venv tej
+            '''
 
+         }
        stage('Create Virtual Environment') {
                 steps {
                     dir("${env.WORKSPACE}") {
@@ -73,7 +83,7 @@ pipeline {
                             def venvName = "${env.JOB_NAME}".replaceAll("[^a-zA-Z0-9]", "_")  // Safe venv name
                             if (isUnix()) {
                                 echo "Creating virtual environment on Unix with name: ${venvName}"
-                                sh "python3 -m venv ${venvName}"
+                                sh "python -m venv ${venvName}"
                             } else {
                                 echo "Creating virtual environment on Windows with name: ${venvName}"
                                 bat "python -m venv ${venvName}"
