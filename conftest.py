@@ -8,6 +8,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 import pytest
 import yaml
 import pytest_html
+from chromedriver_py import binary_path
+
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.firefox import GeckoDriverManager
 
@@ -23,9 +25,11 @@ def config():
 @pytest.fixture
 def driver():
 
-    # options=webdriver.ChromeOptions()
-    # driver=webdriver.Chrome(service=Service(ChromeDriverManager().install()),options=options)
-    driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
+    options=webdriver.ChromeOptions()
+    options.add_argument("--start-maximized")
+    options.add_argument("--disable-extensions")
+    driver=webdriver.Chrome(service=Service(executable_path=binary_path),options=options)
+    #driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
     driver.implicitly_wait(10)
     driver.maximize_window()
     yield driver
