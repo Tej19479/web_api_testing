@@ -114,11 +114,22 @@ pipeline {
                             call ${venvName}\\Scripts\\activate
                             python --version
                             echo Version check completed.
+                            python -m pip install --upgrade pip
+                             pip install -r requirements.txt
                             """
                         }
                     }
                 }
             }
+        }
+        stage('RUN TESTCASES'){
+          steps{
+
+                    bat """
+                        python -m pytest -v -s .\tests\test_add_cart_item.py --html=reports/30072025.html --self-contained-html
+                    """
+            }
+          }
         }
     }
 }
