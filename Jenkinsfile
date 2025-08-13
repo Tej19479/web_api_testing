@@ -1,9 +1,8 @@
 pipeline {
     agent any
-    environment{
-      Python_path ="${env.Python_path}"
-      PATH = "${Python_path};${env.PATH}"
-
+    environment {
+        Python_path = "${env.Python_path}"
+        PATH = "${Python_path};${env.PATH}"
     }
 
     parameters {
@@ -70,68 +69,56 @@ pipeline {
                 echo "Branch name is: ${env.BRANCH_NAME}"
             }
         }
+
         stage('Set up the environment for project') {
-            steps { dir("${WORKSPACE}"){
-                 bat '''
-                       // echo Current PATH:
+            steps {
+                dir("${WORKSPACE}") {
+                    bat '''
+                        echo Current PATH:
                         echo %PATH%
-                        echo "this is python path is : %Python_path%"
-                        //echo Adding Python to PATH...
-                        //set "PATH=%PYTHON_PATH%;%PATH%"
+                        echo This is Python path: %Python_path%
 
                         echo Checking Python version...
                         python --version
-
-                    
                     '''
-            }
+                }
             }
         }
-//        stage('Create Virtual Environment') {
-//                 steps {
-//                     dir("${env.WORKSPACE}") {
-//                         script {
-//                             def venvName = "${env.JOB_NAME}".replaceAll("[^a-zA-Z0-9]", "_")  // Safe venv name
-//                             if (isUnix()) {
-//                                 echo "Creating virtual environment on Unix with name: ${venvName}"
-//                                 sh "python -m venv ${venvName}"
-//                             } else {
-//                                 echo "Creating virtual environment on Windows with name: ${venvName}"
-//                                 bat "python -m venv ${venvName}"
-//                             }
-//                         }
-//                     }
-//                 }
-//        }
-          stage('Create Virtual Environment') {
-                steps {
-                    dir("${env.WORKSPACE}") {
 
-                            venvName = "${env.JOB_NAME}".replaceAll("[^a-zA-Z0-9]", "_")  // Safe venv name
-                            if (isUnix()) {
-                                echo "Creating virtual environment on Unix with name: ${venvName}"
-                                sh "python -m venv ${venvName}"
-                            } else {
-                                echo "Creating virtual environment on Windows with name: ${venvName}"
-                                bat "python -m venv ${venvName}"
-                            }
-
+        stage('Create Virtual Environment') {
+            steps {
+                dir("${env.WORKSPACE}") {
+                    script {
+                        // Global variable
+                        venvName = "${env.JOB_NAME}".replaceAll("[^a-zA-Z0-9]", "_")
+                        if (isUnix()) {
+                            echo "Creating virtual environment on Unix with name: ${venvName}"
+                            sh "python -m venv ${venvName}"
+                        } else {
+                            echo "Creating virtual environment on Windows with name: ${venvName}"
+                            bat "python -m venv ${venvName}"
+                        }
                     }
                 }
-          }
-          stage('activate the virtual environment'){
-              steps{
-                   dir("${WORKSPACE}"){
-                    bat '''
-                    call ${venvName}\\Scripts\\activate
-                    python --version
-                    echo 'version check above the point'
-                    ''''
+            }
+        }
 
-
-                   }
-              }
-          }
-
+        stage('Activate Virtual Environment') {
+            steps {
+                dir("${WORKSPACE}") {
+                    script {
+                        if (isUnix()) {
+                            sh "source ${venvName}/bin/activate && python --version"
+                        } else {
+                            bat """
+                            call ${venvName}\\Scripts\\activate
+                            python --version
+                            echo Version check completed.
+                            """
+                        }
+                    }
+                }
+            }
+        }
     }
 }
