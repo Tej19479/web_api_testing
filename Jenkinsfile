@@ -87,11 +87,27 @@ pipeline {
             }
             }
         }
-       stage('Create Virtual Environment') {
+//        stage('Create Virtual Environment') {
+//                 steps {
+//                     dir("${env.WORKSPACE}") {
+//                         script {
+//                             def venvName = "${env.JOB_NAME}".replaceAll("[^a-zA-Z0-9]", "_")  // Safe venv name
+//                             if (isUnix()) {
+//                                 echo "Creating virtual environment on Unix with name: ${venvName}"
+//                                 sh "python -m venv ${venvName}"
+//                             } else {
+//                                 echo "Creating virtual environment on Windows with name: ${venvName}"
+//                                 bat "python -m venv ${venvName}"
+//                             }
+//                         }
+//                     }
+//                 }
+//        }
+          stage('Create Virtual Environment') {
                 steps {
                     dir("${env.WORKSPACE}") {
-                        script {
-                            def venvName = "${env.JOB_NAME}".replaceAll("[^a-zA-Z0-9]", "_")  // Safe venv name
+
+                            venvName = "${env.JOB_NAME}".replaceAll("[^a-zA-Z0-9]", "_")  // Safe venv name
                             if (isUnix()) {
                                 echo "Creating virtual environment on Unix with name: ${venvName}"
                                 sh "python -m venv ${venvName}"
@@ -99,10 +115,23 @@ pipeline {
                                 echo "Creating virtual environment on Windows with name: ${venvName}"
                                 bat "python -m venv ${venvName}"
                             }
-                        }
+
                     }
                 }
-       }
+          }
+          stage('activate the virtual environment'){
+              steps{
+                   dir("${WORKSPACE}"){
+                    bat '''
+                    call ${venvName}\\Scripts\\activate
+                    python --version
+                    echo 'version check above the point'
+                    ''''
+
+
+                   }
+              }
+          }
 
     }
 }
