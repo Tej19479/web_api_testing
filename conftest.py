@@ -26,9 +26,12 @@ def config():
 def driver():
 
     options=webdriver.ChromeOptions()
-    options.add_argument("--start-maximized")
-    options.add_argument("--disable-extensions")
-    driver=webdriver.Chrome(service=Service(executable_path=binary_path),options=options)
+    # options.add_argument("--start-maximized")
+    # options.add_argument("--disable-extensions")
+    # driver = webdriver.Chrome(service=Service(executable_path=binary_path), options=options)
+    chrome_driver_path = r"C:\Users\Tej\.wdm\drivers\chromedriver\win64\139.0.7258.68\chromedriver-win32\chromedriver.exe"
+    service = Service(chrome_driver_path)
+    driver=webdriver.Chrome(service=service,options=options)
     #driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
     driver.implicitly_wait(10)
     driver.maximize_window()
