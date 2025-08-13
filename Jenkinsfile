@@ -111,6 +111,9 @@ pipeline {
                             call ${venvName}\\Scripts\\activate
                             python --version
                             echo Version check completed.
+                            python -m pip install --upgrade pip
+                            pip install -r requirements.txt
+                            echo Version check requement txt file.
                             """
                         }
                     }
