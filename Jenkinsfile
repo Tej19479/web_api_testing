@@ -11,13 +11,11 @@ pipeline {
             choices: ['chrome', 'firefox', 'edge'],
             description: 'Select the browser to open'
         )
-
         string(
             name: 'TestingWebsiteURL',
             defaultValue: 'https://www.faircent.in/',
             description: 'Enter the testing URL.'
         )
-
         string(
             name: 'reportname',
             defaultValue: 'testing.html',
@@ -89,7 +87,6 @@ pipeline {
             steps {
                 dir("${env.WORKSPACE}") {
                     script {
-                        // Global variable
                         venvName = "${env.JOB_NAME}".replaceAll("[^a-zA-Z0-9]", "_")
                         if (isUnix()) {
                             echo "Creating virtual environment on Unix with name: ${venvName}"
@@ -120,16 +117,16 @@ pipeline {
                 }
             }
         }
-        stage('RUN TESTCASES'){
-          steps{
 
+        stage('Run Testcases') {
+            steps {
+                dir("${WORKSPACE}") {
                     bat """
-                        pytest -v -s .\tests\test_add_cart_item.py --html=reports/30072025.html --self-contained-html
+                        call ${venvName}\\Scripts\\activate
+                        pytest -v -s tests/test_add_cart_item.py --html=reports/${BUILD_NUMBER}.html --self-contained-html
                     """
+                }
             }
-          }
         }
-
-
     }
 }
