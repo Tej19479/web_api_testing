@@ -1,5 +1,5 @@
 pipeline {
-     agent { label 'Windows' }
+     agent any
     environment {
         Python_path = "${env.Python_path}"
         PATH = "${Python_path};${env.PATH}"
