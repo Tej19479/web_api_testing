@@ -31,7 +31,7 @@ pipeline {
         stage('Checkout') {
             steps {
             git branch: "${params.BRANCH_NAME}",
-            url: 'https://github.com/Tej19479/web_api_testing.git',
+            url: 'git@github.com:Tej19479/web_api_testing.git',
             credentialsId: '1730154'
             }
         }
