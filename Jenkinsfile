@@ -1,8 +1,5 @@
 pipeline {
-    agent any
-    tools {
-        git 'Default'
-    }
+     agent any
     environment {
         Python_path = "${env.Python_path}"
         PATH = "${Python_path};${env.PATH}"
@@ -24,20 +21,18 @@ pipeline {
             defaultValue: 'testing.html',
             description: 'Enter the report name.'
         )
+         string(name: 'BRANCH_NAME',
+         defaultValue: 'master',
+         description: 'Which branch to build?'
+         )
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Use env.BRANCH_NAME in multibranch, not params
-                checkout([
-                    $class: 'GitSCM',
-                    branches: [[name: "*/${env.BRANCH_NAME}"]],
-                    userRemoteConfigs: [[
-                        url: 'git@github.com:Tej19479/web_api_testing.git',
-                        credentialsId: '1730154'
-                    ]]
-                ])
+            git branch: "${params.BRANCH_NAME}",
+            url: 'git@github.com:Tej19479/web_api_testing.git',
+            credentialsId: '1730154'
             }
         }
 
@@ -54,8 +49,10 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
+                        echo "Running on Unix..."
                         sh 'cat README.md'
                     } else {
+                        echo "Running on Windows..."
                         bat 'type README.md'
                     }
                 }
@@ -98,8 +95,10 @@ pipeline {
                     script {
                         venvName = "${env.JOB_NAME}".replaceAll("[^a-zA-Z0-9]", "_")
                         if (isUnix()) {
+                            echo "Creating virtual environment on Unix with name: ${venvName}"
                             sh "python -m venv ${venvName}"
                         } else {
+                            echo "Creating virtual environment on Windows with name: ${venvName}"
                             bat "python -m venv ${venvName}"
                         }
                     }
@@ -117,8 +116,10 @@ pipeline {
                             bat """
                             call ${venvName}\\Scripts\\activate
                             python --version
+                            echo Version check completed.
                             python -m pip install --upgrade pip
-                            pip install -r requirements.txt || echo "No requirements.txt found"
+                             pip install -r requirements.txt || echo "No requirements.txt found"
+                            echo Version check requement txt file.
                             """
                         }
                     }
