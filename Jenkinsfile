@@ -21,12 +21,18 @@ pipeline {
             defaultValue: 'testing.html',
             description: 'Enter the report name.'
         )
+         string(name: 'BRANCH_NAME',
+         defaultValue: 'main',
+         description: 'Which branch to build?'
+         )
     }
 
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+            git branch: "${params.BRANCH_NAME}",
+            url: 'https://github.com/Tej19479/web_api_testing.git',
+            credentialsId: '1730154'
             }
         }
 

@@ -39,7 +39,6 @@ def driver():
     driver=webdriver.Chrome(service=service,options=options)
     #driver = webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
     driver.implicitly_wait(10)
-    driver.maximize_window()
     yield driver
 
     driver.quit()
